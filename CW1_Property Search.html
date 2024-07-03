@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CW1</title>
+<style> 
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+    header {
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+    }
+    nav {
+        background-color: #444;
+        padding: 10px 0;
+        text-align: center;
+    }
+    nav a {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 20px;
+        margin: 0 5px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    nav a:hover {
+        background-color: #666;
+    }
+    .search-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .search-container input[type=search] {
+        padding: 10px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: width 0.4s ease-in-out;
+    }
+    .search-container input[type=search]:focus {
+        width: 400px;
+    }
+    .advanced-search {
+        display: none;
+        padding: 15px;
+        align-self: center;
+        background-color:25px #f9f9f9;
+        border: 10px solid #ccc;
+        border-radius: 5px;
+        width: 25%;
+        margin-top: 10px;
+    }
+
+    .advanced-search label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .advanced-search input[type="number"],
+    .advanced-search input[type="date"],
+    .advanced-search select {
+        width: calc(50% - 24px);
+        padding: 6px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        justify-items: left;
+  
+  
+    }
+
+    .advanced-search button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-top: 0px;
+  
+    }
+
+    .advanced-search button:hover {
+        background-color: #45a049;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 20px 0;
+    }
+    .column {
+        flex: 1;
+        background-color: #fff;
+        padding: 20px;
+        margin: 10px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s;
+    }
+    .column:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .column img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .column {
+            flex: 100%;
+        }
+    }
+
+    #viewFavourites {
+        background-color: #83919a;
+        border: none;
+        color: white;
+        padding: 15px 30px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Property Search</h1>
+    <p>Search properties for sale and rent in the UK</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#news">News</a>
+    <a href="#contact">Contact Us</a>
+    <a href="#about">About</a>
+</nav>
+
+
+
+<div class="search-container">
+    <input type="search" id="search" placeholder="Search by 'PropertyType or Postcode'">
+    <input type="button" id="searchButton" value="Search">
+</div>
+
+<input type="button" id="viewFavourites" Value ="View Favourites" > <br>
+
+<div id="placeholder1"></div>
+<div id="placeholder2"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        let data = {
+            "properties": [
+                {
+                    "id":"prop1",
+                    "type":"Apartment",
+                    "bedrooms":3,
+                    "price":750000,
+                    "tenure":"Freehold",
+                    "description":"The accommodation briefly comprises of: Entrance hallway - Kitchen - Living/Dining room - Double bedroom with built-in wardrobes and ensuite - Second double bedroom with built-in wardrobes - Bathroom - Balcony - Secure allocated parking space",
+                    "location":"Petts Wood Road, Petts Wood, Orpington",
+                    "picture":"images/prop1pic1small.png",
+                    "url":"properties/prop1.html",
+                    "added": {
+                        "month":"October",
+                        "day":12,
+                        "year":2022
+                    }
+                },
+                {
+                    "id":"prop2",
+                    "type":"Terraced",
+                    "bedrooms":2,
+                    "price":465000,
+                    "tenure":"Freehold",
+                    "description":"Presented in excellent decorative order throughout is this two double bedroom, two bathroom, garden flat. <br>The modern fitted kitchen is open plan to the living room which boasts solid wooden floors and includes integrated appliances including a dishwasher & a washing machine. This large open plan benefits from bi folding doors onto a secluded private courtyard garden. Both bedrooms are double sized, and the family bathroom boasts a matching three piece suite a shower attachment over the bath. There is also a separate wet room. There are walnut doors throughout and wiring for Sky TV/aerial points in the living room/kitchen and both bedrooms.<br>This apartment being only five years old, is still under a 10 year building guarantee...",
+                    "location":"Crofton Road, Orpington, BR6",
+                    "picture":"images/prop2pic1small.png",
+                    "url":"properties/prop2.html",
+                    "added": {
+                        "month":"September",
+                        "day":14,
+                        "year":2022
+                    }
+                },
+                {
+                    "id":"prop3",
+                    "type":"House",
+                    "bedrooms":5,
+                    "price":480000,
+                    "tenure":"Freehold",
+                    "description":"Langford Russell are delighted to present to the market this exceptional five bedroom detached family home, offering an exquisite specification throughout and located in the prestigious private and gated Farnborough Park.",
+                    "location":"Park Avenue, Farnborough, Orpington",
+                    "picture":"images/prop3pic1small.png",
+                    "url":"properties/prop3.html",
+                    "added": {
+                        "month":"March",
+                        "day":5,
+                        "year":2024
+                    }
+                },
+                {
+                    "id":"prop4",
+                    "type":"House",
+                    "bedrooms":4,
+                    "price":375000,
+                    "tenure":"Freehold",
+                    "description":"An impressive semi-detached family home which has been sympathetically extended into the loft to provide spacious second floor accommodation. Situated in a charming residential street within strolling distance of York City Centre",
+                    "location":"Southolme Drive, Rawcliffe, York",
+                    "picture":"images/prop4pic1small.png",
+                    "url":"properties/prop4.html",
+                    "added": {
+                        "month":"January",
+                        "day":21,
+                        "year":2024
+                    }
+                },
+                {
+                    "id":"prop5",
+                    "type":"Apartment",
+                    "bedrooms":2,
+                    "price":595000,
+                    "tenure":"Freehold",
+                    "description":"'Treetops' occupies the upper two floors of number 128 The Mount,a grand, Grade II listed Georgian-style townhouse with a distinctive white stucco facade",
+                    "location":"The Mount, York, YO24",
+                    "picture":"images/prop5pic1small.png",
+                    "url":"properties/prop5.html",
+                    "added": {
+                        "month":"February",
+                        "day":15,
+                        "year":2024
+                    }
+                },
+
+
+
+            ]
+        };
+
+        $("#searchButton").on("click", function() {
+            var userInput = $("#search").val();
+            var output = "";
+            
+            for (var i in data.properties) {
+                var postcode = data.properties[i].location;
+                var addressList = postcode.split(", ");
+                if (addressList.includes(userInput) || userInput === data.properties[i].type) {
+                    output += "<div class='column'>";
+                    output += "<h2>" + data.properties[i].type + "</h2>";
+                    output += "<img src='" + data.properties[i].picture + "' style='width: 100px; height: 100px;' />";
+                    output += "<p>Price: £" + data.properties[i].price + "</p>";
+                    output += "<p>Address: " +data.properties[i].location  + "</p>";
+                    output += "<p>Bedrooms: " + data.properties[i].bedrooms + "</p>";
+                    output += "<p>Tenure: " + data.properties[i].tenure + "</p>";
+                    output += "<a href='" + data.properties[i].url + "'>View Property</a>";
+                    output += "</div>";
+                }
+            }
+            $("#placeholder1").html(output);
+        });
+
+
+        $(".save").on("click", function() {
+        try {
+            $(this).attr('disabled', true);
+            
+            var propertyIdToAdd = $(this).closest("p").attr("id");
+            var myFavouriteProperty = JSON.parse(localStorage.getItem("favProperty")) || [];
+    
+            
+            if (!myFavouriteProperty.includes(propertyIdToAdd)) {
+            
+            myFavouriteProperty.push(propertyIdToAdd);
+            
+            localStorage.setItem("favProperty", JSON.stringify(myFavouriteProperty));
+            } else {
+            console.log("Property is already in favourites.");
+            }
+        } catch (e) {
+            if (e === "QUOTA_EXCEEDED_ERR") {
+            console.log("Error: Local Storage limit exceeds.");
+            } else {
+            console.log("Error: Saving to local storage.");
+            }
+        }
+        });  
+    
+            
+        $("#viewFavourites").on("click", function() {
+        console.log("Restoring array data from local storage.");
+        var myFavouriteProperty = JSON.parse(localStorage.getItem("favProperty")) || [];
+        var output = "<ul>";
+
+        if (myFavouriteProperty.length > 0) {
+            for (var i = 0; i < data.properties.length; i++) {
+                if (myFavouriteProperty.includes(data.properties[i].id)) {
+                    output += "<li>"+ data.properties[i].type + " " + 
+                            data.properties[i].location + " -- £" + 
+                            data.properties[i].price + 
+                            " <a href='" + data.properties[i].url + "'>Visit Page</a>" +
+                            " <button class='remove-property' data-property-id='" + data.properties[i].id + "'>Remove</button></li>";
+                }
+            }
+            output += "<button id='clear-favorites'>Clear Favorites</button>";
+        } else {
+            output = "<p>No favorite properties found.</p>";
+        }
+        
+        $("#placeholder2").html(output);
+    });
+
+  
+    $("#placeholder2").on("click", ".remove-property", function() {
+        var propertyIdToRemove = $(this).data("property-id");
+        var myFavouriteProperty = JSON.parse(localStorage.getItem("favProperty")) || [];
+        var updatedFavorites = myFavouriteProperty.filter(id => id !== propertyIdToRemove);
+        localStorage.setItem("favProperty", JSON.stringify(updatedFavorites));
+        
+        $("#viewFavourites").click();
+    });
+
+   
+    $("#placeholder2").on("click", "#clear-favorites", function() {
+        localStorage.removeItem("favProperty");
+        
+        $("#viewFavourites").click();
+    });
+    $("#searchProperties").on("click", function() {
+    var userType = $("#type").val();
+    var userMinPrice = parseInt($("#minPrice").val());
+    var userMaxPrice = parseInt($("#maxPrice").val());
+    var userMinBedrooms = parseInt($("#minBedrooms").val());
+    var userMaxBedrooms = parseInt($("#maxBedrooms").val());
+    var output = "";
+    
+    for (var i in data.properties) {
+      var propertyPrice = parseInt(data.properties[i].price);
+      var propertyBedrooms = parseInt(data.properties[i].bedrooms);
+      
+      if (userType === data.properties[i].type &&
+          userMinPrice <= propertyPrice && propertyPrice <= userMaxPrice &&
+          userMinBedrooms <= propertyBedrooms && propertyBedrooms <= userMaxBedrooms) {
+        output += "<div class='column'>";
+        output += "<h2>" + data.properties[i].type + "</h2>";
+        output += "<img src='" + data.properties[i].picture + "' style='width: 100px; height: 100px;' />";
+        output += "<p>Price: £" + data.properties[i].price + "</p>";
+        output += "<p>Address: " + data.properties[i].location + "</p>";
+        output += "<p>Bedrooms: " + data.properties[i].bedrooms + "</p>";
+        output += "<p>Tenure: " + data.properties[i].tenure + "</p>";
+        output += "<a href='" + data.properties[i].url + "'>View Property</a>";
+        output += "</div>";
+      }
+    }
+    $("#placeholder3").html(output);
+  });
+});
+</script>
+
+
+
+<button type="button" onclick="toggleAdvancedSearch()">Advanced Search</button>
+
+<!-- Advanced Search Fields (hidden by default) -->
+<div class="advanced-search" id="advancedSearch">
+  <form id="searchForm">
+    <label for="type">Type:</label>
+    <select id="type">
+      <option value="any">Any</option>
+      <option value="House">House</option>
+      <option value="Apartment">Apartment</option>
+      <option value="Terraced">Terraced</option>
+    </select><br>
+    
+    <label for="minPrice">Min Price (£):</label>
+    <input type="number" id="minPrice" name="minPrice"><br>
+
+    <label for="maxPrice">Max Price (£):</label>
+    <input type="number" id="maxPrice" name="maxPrice"><br>
+
+    <label for="minBedrooms">Min Bedrooms:</label>
+    <input type="number" id="minBedrooms" name="minBedrooms"><br>
+
+    <label for="maxBedrooms">Max Bedrooms:</label>
+    <input type="number" id="maxBedrooms" name="maxBedrooms"><br>
+
+    <label for="dateAdded">Date Added:</label>
+    <input type="date" id="dateAdded" name="dateAdded"><br>
+
+    <button type="button" id="searchProperties">Search</button>
+  </form>
+</div>
+
+
+<div id="placeholder3"></div>
+
+<script>
+    function toggleAdvancedSearch() {
+      var advancedSearch = document.getElementById("advancedSearch");
+      if (advancedSearch.style.display === "none") {
+        advancedSearch.style.display = "block";
+      } else {
+        advancedSearch.style.display = "none";
+      }
+    }
+    
+    function searchProperties() {
+      console.log("Advanced Search Criteria:");
+      console.log("Min Price: " + document.getElementById("minPrice").value);
+      console.log("Max Price: " + document.getElementById("maxPrice").value);
+      console.log("Min Bedrooms: " + document.getElementById("minBedrooms").value);
+      console.log("Max Bedrooms: " + document.getElementById("maxBedrooms").value);
+      console.log("Date Added: " + document.getElementById("dateAdded").value);
+    }
+    </script>
+
+    <div class="row">
+        <div class="column">
+            <img src="property.png" alt="Property Icon">
+            <h2>Most Properties</h2>
+            <p>Find your dream home with the most comprehensive resale property database, discover high-rise properties such as flats, condo and apartment or landed property for sale in the UK.</p>
+        </div>
+        <div class="column">
+            <img src="review.png" alt="User Reviews Icon">
+            <h2>User Reviews</h2>
+            <p>Find UK's most popular properties reviewed and rated by our users on our property directory.</p>
+        </div>
+        <div class="column">
+            <img src="launch.png" alt="Launch Icon">
+            <h2>Latest Launches</h2>
+            <p>Comprehensive details and property reviews on new apartment launches and new homes in and around the UK.</p>
+        </div>
+        <div class="column">
+            <img src="rental.png" alt="Rental Icon">
+            <h2>Rental Properties</h2>
+            <p>Make the UK your home with the most comprehensive rental properties database, discover high-rise properties such as apartments, landed property for rent or room rentals in the UK.</p>
+        </div>
+    </div>
+
+</body>
+</html>
+    
